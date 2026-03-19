@@ -5,6 +5,6 @@ CREATE TABLE IF NOT EXISTS documents (
   id SERIAL PRIMARY KEY,
   text TEXT NOT NULL,
   metadata JSONB,
-  vector vector(8),
+  vector vector(1536),
   created_at TIMESTAMPTZ DEFAULT now()
 );

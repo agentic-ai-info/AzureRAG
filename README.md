@@ -26,6 +26,18 @@ curl -X POST http://localhost:5001/query \
   -d '{"question":"What is Hello from demo?"}'
 ```
 
+4. Embed a local file:
+
+```bash
+python3 scripts/embed_file.py README.md
+```
+
+Optional arguments:
+
+```bash
+python3 scripts/embed_file.py README.md --chunk-size 1200 --overlap 150 --api-base-url http://localhost:5001
+```
+
 Notes:
 - This scaffold uses a deterministic local embedding generator when `AZURE_FOUNDRY_API_KEY` is not provided. Replace with a real Foundry endpoint and API key by setting `AZURE_FOUNDRY_ENDPOINT` and `AZURE_FOUNDRY_API_KEY` in `docker-compose.yml` or environment.
 - For production-style vector search, install and enable the `pgvector` extension and store vectors in `vector` column. The current SQL uses `jsonb` as a safe fallback for demo purposes.
