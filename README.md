@@ -1,6 +1,6 @@
 # Azure Foundry + Postgres RAG demo
 
-This demo shows a minimal RAG pipeline using an ASP.NET Web API, PostgreSQL (vector stored as JSONB for demo), and a placeholder Azure Foundry client.
+This demo shows a minimal RAG pipeline using an ASP.NET Web API, PostgreSQL, pgvector extension, and Azure Foundry client.
 
 Quick start:
 
@@ -10,7 +10,7 @@ Quick start:
 docker compose up --build
 ```
 
-2. Create an embedding:
+2. Create an embedding (or skip and go to Point 4. Embed a local file):
 
 ```bash
 curl -X POST http://localhost:5001/embeddings \
@@ -54,4 +54,4 @@ curl -X POST http://localhost:5001/query \
 
 Notes:
 - Configure Azure credentials in `.env` (copy `.env.template` as a starting point). The API will fail to start if any of the three required variables (`AZURE_FOUNDRY_API_KEY`, `AZURE_FOUNDRY_ENDPOINT`, `AZURE_FOUNDRY_EMBEDDINGS_ENDPOINT`) are missing.
-- Vector search uses the `pgvector` extension with a `vector(1536)` column, matching the `text-embedding-ada-002` / `text-embedding-3-small` output dimension.
+- Vector search uses the `pgvector` extension with a `vector(1536)` column, matching the `text-embedding-ada-002` / `text-embedding-3-small` output dimension. If you use different embedding models the db init script needs to be adjusted.

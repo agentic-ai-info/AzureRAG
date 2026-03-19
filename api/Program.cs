@@ -3,8 +3,6 @@ using System.Text.Json;
 using Dapper;
 using Npgsql;
 
-// Models and helpers moved to Models.cs
-
 public class Program
 {
     public static async Task Main(string[] args)
@@ -103,8 +101,8 @@ public class Program
         // Enable pgvector extension
         await conn.ExecuteAsync("CREATE EXTENSION IF NOT EXISTS vector;");
 
-        // Drop the documents table if it was created with a different vector dimension
-        // (e.g. the 8-dim demo schema), so we recreate it with the correct 1536 dims.
+        // Drop the documents table if it was created with a different vector dimension,
+        // so we recreate it with the correct 1536 dims (for text-embedding-ada-002).
         await conn.ExecuteAsync(@"
             DO $$
             BEGIN
