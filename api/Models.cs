@@ -3,6 +3,7 @@ using System.Text.Json;
 public record EmbeddingRequest(string Text, JsonElement? Metadata);
 public record QueryRequest(string Question, int? TopK);
 public record DocumentRow(int id, string text, JsonElement? metadata, JsonElement? vector);
+public record DocumentSearchResult(int Id, string Text, double Score);
 
 public class DatabaseOptions { public string ConnectionString { get; }
     public DatabaseOptions(string cs) => ConnectionString = cs;

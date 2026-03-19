@@ -29,13 +29,13 @@ curl -X POST http://localhost:5001/query \
 4. Embed a local file (use the demo text provided in `demo-data.txt`):
 
 ```bash
-python3 scripts/embed_file.py demo-data.txt --source demo-data
+python3 scripts/embed_file.py scripts/demo-data.txt --source demo-data
 ```
 
 Optional arguments:
 
 ```bash
-python3 scripts/embed_file.py demo-data.txt --chunk-size 1200 --overlap 150 --api-base-url http://localhost:5001 --source demo-data
+python3 scripts/embed_file.py scripts/demo-data.txt --chunk-size 1200 --overlap 150 --api-base-url http://localhost:5001 --source demo-data
 ```
 
 Example queries (after embedding `demo-data.txt`):
