@@ -3,24 +3,23 @@ using System.Text.Json;
 
 public class AzureFoundryClient
 {
-    private readonly string? _apiKey = Environment.GetEnvironmentVariable("AZURE_FOUNDRY_API_KEY");
-    // Full URL to the chat completions deployment, e.g. .../deployments/gpt-4.1-mini/chat/completions?api-version=...
-    private readonly string? _chatEndpoint = Environment.GetEnvironmentVariable("AZURE_FOUNDRY_ENDPOINT");
-    // Full URL to the embeddings deployment, e.g. .../deployments/text-embedding-3-small/embeddings?api-version=...
-    private readonly string? _embeddingsEndpoint = Environment.GetEnvironmentVariable("AZURE_FOUNDRY_EMBEDDINGS_ENDPOINT");
+    private readonly string _apiKey;
+    private readonly string _chatEndpoint;
+    private readonly string _embeddingsEndpoint;
     private readonly HttpClient _http = new();
 
-    public AzureFoundryClient() { }
-
-    private bool IsDemo =>
-        string.IsNullOrEmpty(_apiKey) || _apiKey == "placeholder" ||
-        string.IsNullOrEmpty(_embeddingsEndpoint) || _embeddingsEndpoint.Contains("replace-with");
+    public AzureFoundryClient()
+    {
+        _apiKey = Environment.GetEnvironmentVariable("AZURE_FOUNDRY_API_KEY")
+            ?? throw new InvalidOperationException("AZURE_FOUNDRY_API_KEY is not set.");
+        _chatEndpoint = Environment.GetEnvironmentVariable("AZURE_FOUNDRY_ENDPOINT")
+            ?? throw new InvalidOperationException("AZURE_FOUNDRY_ENDPOINT is not set.");
+        _embeddingsEndpoint = Environment.GetEnvironmentVariable("AZURE_FOUNDRY_EMBEDDINGS_ENDPOINT")
+            ?? throw new InvalidOperationException("AZURE_FOUNDRY_EMBEDDINGS_ENDPOINT is not set.");
+    }
 
     public async Task<float[]> GetEmbeddingAsync(string text)
     {
-        if (IsDemo)
-            return GenerateDeterministicEmbedding(text, 1536);
-
         var req = new { input = text };
         var reqJson = JsonSerializer.Serialize(req);
         using var httpReq = new HttpRequestMessage(HttpMethod.Post, _embeddingsEndpoint);
@@ -36,9 +35,6 @@ public class AzureFoundryClient
 
     public async Task<string> GetCompletionAsync(string question, string context)
     {
-        if (IsDemo)
-            return $"[demo answer] Question: {question}\nContext:\n{context}";
-
         var messages = new object[]
         {
             new { role = "system", content = "You are a helpful assistant. Answer questions based only on the provided context." },
@@ -58,14 +54,5 @@ public class AzureFoundryClient
             .GetProperty("message")
             .GetProperty("content")
             .GetString() ?? string.Empty;
-    }
-
-    private static float[] GenerateDeterministicEmbedding(string text, int dim)
-    {
-        var seed = text.Aggregate(0, (a, c) => a * 31 + c);
-        var rnd = new Random(seed);
-        var v = new float[dim];
-        for (int i = 0; i < dim; i++) v[i] = (float)(rnd.NextDouble() * 2 - 1);
-        return v;
     }
 }

@@ -39,5 +39,5 @@ python3 scripts/embed_file.py README.md --chunk-size 1200 --overlap 150 --api-ba
 ```
 
 Notes:
-- This scaffold uses a deterministic local embedding generator when `AZURE_FOUNDRY_API_KEY` is not provided. Replace with a real Foundry endpoint and API key by setting `AZURE_FOUNDRY_ENDPOINT` and `AZURE_FOUNDRY_API_KEY` in `docker-compose.yml` or environment.
-- For production-style vector search, install and enable the `pgvector` extension and store vectors in `vector` column. The current SQL uses `jsonb` as a safe fallback for demo purposes.
+- Configure Azure credentials in `.env` (copy `.env.template` as a starting point). The API will fail to start if any of the three required variables (`AZURE_FOUNDRY_API_KEY`, `AZURE_FOUNDRY_ENDPOINT`, `AZURE_FOUNDRY_EMBEDDINGS_ENDPOINT`) are missing.
+- Vector search uses the `pgvector` extension with a `vector(1536)` column, matching the `text-embedding-ada-002` / `text-embedding-3-small` output dimension.
