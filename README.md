@@ -1,6 +1,7 @@
 # Azure Foundry + Postgres RAG demo
 
 This demo shows a minimal RAG pipeline using an ASP.NET Web API, PostgreSQL, pgvector extension, and Azure Foundry client.
+You can read more about this demo here: https://agentic-ai.info/implementing-rag-with-azure-foundry-net-backend-and-postgresql-vector-database/
 
 Quick start:
 
