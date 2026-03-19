@@ -26,16 +26,30 @@ curl -X POST http://localhost:5001/query \
   -d '{"question":"What is Hello from demo?"}'
 ```
 
-4. Embed a local file:
+4. Embed a local file (use the demo text provided in `demo-data.txt`):
 
 ```bash
-python3 scripts/embed_file.py README.md
+python3 scripts/embed_file.py demo-data.txt --source demo-data
 ```
 
 Optional arguments:
 
 ```bash
-python3 scripts/embed_file.py README.md --chunk-size 1200 --overlap 150 --api-base-url http://localhost:5001
+python3 scripts/embed_file.py demo-data.txt --chunk-size 1200 --overlap 150 --api-base-url http://localhost:5001 --source demo-data
+```
+
+Example queries (after embedding `demo-data.txt`):
+
+```bash
+curl -X POST http://localhost:5001/query \
+  -H 'Content-Type: application/json' \
+  -d '{"question":"Which city did the narrator visit after Lisbon?"}'
+```
+
+```bash
+curl -X POST http://localhost:5001/query \
+  -H 'Content-Type: application/json' \
+  -d '{"question":"What are the best month for travel?"}'
 ```
 
 Notes:
