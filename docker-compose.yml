@@ -18,6 +18,6 @@ services:
     depends_on:
       - postgres
     environment:
-      - ConnectionStrings__Default=Host=postgres;Port=5432;Database=rag_demo;Username=postgres;Password=postgres
-      - AZURE_FOUNDRY_API_KEY=placeholder
-      - AZURE_FOUNDRY_ENDPOINT=https://api.foundry.azure.com
+      ConnectionStrings__Default: ${CONNECTIONSTRINGS__DEFAULT}
+      AZURE_FOUNDRY_API_KEY: ${AZURE_FOUNDRY_API_KEY}
+      AZURE_FOUNDRY_ENDPOINT: ${AZURE_FOUNDRY_ENDPOINT}
