@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  postgres:
+    image: ankane/pgvector:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: rag_demo
+    volumes:
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    ports:
+      - "5432:5432"
+
+  api:
+    build: ./api
+    ports:
+      - "5001:80"
+    depends_on:
+      - postgres
+    environment:
+      - ConnectionStrings__Default=Host=postgres;Port=5432;Database=rag_demo;Username=postgres;Password=postgres
+      - AZURE_FOUNDRY_API_KEY=placeholder
+      - AZURE_FOUNDRY_ENDPOINT=https://api.foundry.azure.com
